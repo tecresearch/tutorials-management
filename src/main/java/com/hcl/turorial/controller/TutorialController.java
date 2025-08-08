@@ -12,7 +12,10 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.Objects;
 
 @RestController
 @RequestMapping("/api/platform/v1/tutorials")
@@ -74,6 +77,25 @@ public class TutorialController {
         @GetMapping("/get")
         public ResponseEntity<TutorialResponse> getTutorialByTitle(@RequestParam("title") String title) {
                 return ResponseEntity.status(HttpStatus.OK).body(tutorialService.getTutorialByTitle(title));
+        }
+        @Operation(summary = "Publish your tutorial by id",
+        description = "Changing the status of the tutorial status ")
+        @PutMapping("/publish/{id}")
+        public ResponseEntity<Map<String,Object>> publishTutorial(@PathVariable long id) {
+                Map<String, Object> response = new HashMap<>();
+                        response.put("status", tutorialService.tutorialPublishedById(id));
+                        response.put("message", "Tutorial published successfully");
+                return ResponseEntity.status(HttpStatus.ACCEPTED).body(response);
+        }
+
+        @Operation(summary = "UnPublish your tutorial by id",
+                description = "Changing the status of the tutorial status ")
+        @PutMapping("/unpublish/{id}")
+        public ResponseEntity<Map<String,Object>> uNpublishTutorial(@PathVariable long id) {
+                Map<String, Object> response = new HashMap<>();
+                response.put("status", tutorialService.tutorialUnPublishedById(id));
+                response.put("message", "Tutorial unpublished successfully");
+                return ResponseEntity.status(HttpStatus.ACCEPTED).body(response);
         }
 
 

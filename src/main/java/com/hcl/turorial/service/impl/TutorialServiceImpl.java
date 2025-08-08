@@ -43,15 +43,11 @@ public class TutorialServiceImpl implements TutorialService {
 
     @Override
     public TutorialResponse createTutorial(TutorialRequest tutorialRequest) {
-        if(tutorialRepository.existsByTitle(tutorialRequest.getTitle())){
-            throw new DuplicateResourceException("Duplicate entry "+"{ title: "+tutorialRequest.getTitle()+"}");
-        }
         Tutorial tutorial = new Tutorial();
         tutorial.setTitle(tutorialRequest.getTitle());
         tutorial.setDescription(tutorialRequest.getDescription());
         tutorial.setStatus(tutorialRequest.getStatus());
-        this.tutorialRepository.save(tutorial);
-        return getTutorialByTitle(tutorialRequest.getTitle());
+       return modelMapper.map(tutorialRepository.save(tutorial),TutorialResponse.class);
 
     }
 
@@ -143,5 +139,31 @@ public class TutorialServiceImpl implements TutorialService {
 
     }
 
+    @Override
+    public Boolean tutorialPublishedById(Long id) {
+        Tutorial oldTutorial=tutorialRepository.findById(id)
+                .orElseThrow(()->new ResourceNotFoundException("Tutorial with id "+id+" not found!"));
+        if(!oldTutorial.getStatus()){
+            oldTutorial.setStatus(true);
+            tutorialRepository.save(oldTutorial);
+            return true;
+        }else{
+            throw new ResourceNotFoundException("Tutorial with id "+id+" has been already published!");
+        }
 
+    }
+
+    @Override
+    public Boolean tutorialUnPublishedById(Long id) {
+        Tutorial oldTutorial=tutorialRepository.findById(id)
+                .orElseThrow(()->new ResourceNotFoundException("Tutorial with id "+id+" not found!"));
+        if(oldTutorial.getStatus()){
+            oldTutorial.setStatus(false);
+            tutorialRepository.save(oldTutorial);
+            return oldTutorial.getStatus();
+        }else{
+            throw new ResourceNotFoundException("Tutorial with id "+id+" has been already unpublished!");
+        }
+
+    }
 }

@@ -15,6 +15,7 @@ public interface TutorialService {
     public void deleteAllTutorials();
     public List<TutorialResponse> getAllTutorials();
     public List<TutorialResponse> getTutorialPublished();
-
+    public Boolean tutorialPublishedById(Long id);
+    public Boolean tutorialUnPublishedById(Long id);
 
 }

@@ -8,6 +8,7 @@ class TutorialManagementApplicationTests {
 
 	@Test
 	void contextLoads() {
+		System.out.println("Spring Boot Loaded successfully");
 	}
 
 }
