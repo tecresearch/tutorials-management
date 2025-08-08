@@ -7,7 +7,8 @@ public class TutorialResponse {
     private  Boolean status;
 
 public TutorialResponse(){}
-    public TutorialResponse(String title, String description, Boolean status) {
+    public TutorialResponse(Long id,String title, String description, Boolean status) {
+        this.id = id;
         this.title = title;
         this.description = description;
         this.status = status;
@@ -35,5 +36,13 @@ public TutorialResponse(){}
 
     public void setStatus(Boolean status) {
         this.status = status;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
     }
 }
