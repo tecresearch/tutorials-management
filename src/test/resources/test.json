@@ -1,0 +1,38 @@
+[
+  {
+    "id": 1,
+    "title": "Introduction to Java",
+    "description": "A beginner's guide to Java programming.",
+    "status": true
+  },
+  {
+    "id": 2,
+    "title": "Advanced Spring Boot",
+    "description": "Deep dive into Spring Boot for enterprise applications.",
+    "status": true
+  },
+  {
+    "id": 3,
+    "title": "Understanding REST APIs",
+    "description": "Learn how to design and consume RESTful web services.",
+    "status": true
+  },
+  {
+    "id": 4,
+    "title": "Understanding REST APIs",
+    "description": "Learn how to design and consume RESTful web services.",
+    "status": true
+  },
+  {
+    "id": 5,
+    "title": "Understanding REST APIs",
+    "description": "Learn how to design and consume RESTful web services.",
+    "status": true
+  },
+  {
+    "id": 6,
+    "title": "Understanding REST APIs",
+    "description": "Learn how to design and consume RESTful web services.",
+    "status": true
+  }
+]

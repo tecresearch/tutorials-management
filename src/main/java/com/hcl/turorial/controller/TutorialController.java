@@ -54,6 +54,19 @@ public class TutorialController {
                 tutorialService.deleteAllTutorials();
                 return ResponseEntity.status(HttpStatus.NO_CONTENT).build();
         }
+
+        @PatchMapping("/patch/update/{id}")
+        public ResponseEntity<TutorialResponse> updateTutorialPatch(
+                @PathVariable long id,
+                @RequestBody TutorialRequest tutorialRequest) {
+                TutorialResponse updatedTutorial = tutorialService.updateTutorial(id, tutorialRequest);
+                return ResponseEntity.ok(updatedTutorial);
+        }
+        @CrossOrigin
+        @RequestMapping(value = "/options/{id}", method = RequestMethod.OPTIONS)
+        public ResponseEntity<Void> optionsTutorial(@PathVariable long id) {
+                return ResponseEntity.ok().build(); // Indicate OK response
+        }
         @Operation(summary = "Get all tutorial ",
                 description = "Retrieves a list of all tutorials available in the system.")
         @GetMapping("/get-all")
@@ -61,12 +74,7 @@ public class TutorialController {
                 return ResponseEntity.status(HttpStatus.OK).body(tutorialService.getAllTutorials());
 
         }
-        @Operation(summary = "Get only published",
-                description = "Retrieves a list of all tutorials which was published.")
-        @GetMapping("/published")
-        public ResponseEntity<List<TutorialResponse>> getTutorialPublished() {
-                return ResponseEntity.status(HttpStatus.OK).body(tutorialService.getTutorialPublished());
-        }
+
         @Operation(summary = "Get tutorial by title",
                 description = "Retrieves   tutorial available in the system.")
         @ApiResponses(value = {
@@ -93,10 +101,27 @@ public class TutorialController {
         @PutMapping("/unpublish/{id}")
         public ResponseEntity<Map<String,Object>> uNpublishTutorial(@PathVariable long id) {
                 Map<String, Object> response = new HashMap<>();
-                response.put("status", tutorialService.tutorialUnPublishedById(id));
-                response.put("message", "Tutorial unpublished successfully");
-                return ResponseEntity.status(HttpStatus.ACCEPTED).body(response);
+                boolean isUnpublished = tutorialService.tutorialUnPublishedById(id);
+                if (isUnpublished) {
+                        response.put("status", isUnpublished);
+                        response.put("message", "Tutorial unpublished successfully");
+                        return ResponseEntity.status(HttpStatus.OK).body(response);
+                } else {
+                        response.put("status", isUnpublished);
+                        response.put("message", "Tutorial not found");
+                        return ResponseEntity.status(HttpStatus.NOT_FOUND).body(response);
+                }
         }
+
+        @Operation(summary = "Get only published",
+                description = "Retrieves a list of all tutorials which was published.")
+        @GetMapping("/published")
+        public ResponseEntity<List<TutorialResponse>> getTutorialPublished() {
+                return ResponseEntity.status(HttpStatus.OK).body(tutorialService.getTutorialPublished());
+        }
+
+
+
 
 
 }
